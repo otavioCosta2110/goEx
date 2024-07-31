@@ -3,11 +3,15 @@ package main
 import (
 	"fmt"
 	"os"
-	color "otaviocosta2110/goEx/src/middleware"
+
+	"github.com/gdamore/tcell/v2"
+	"github.com/rivo/tview"
 )
 
 
 func main() {
+  app := tview.NewApplication()
+
   dir := "."
 
   d, err := os.Open(dir)
@@ -21,11 +25,27 @@ func main() {
 
   files, err := d.Readdir(-1)
 
-  for _, file := range files {
-    if file.IsDir() {
-      fmt.Printf("%s%s/%s\n",color.Blue, file.Name(), color.Reset)
-    } else {
-      fmt.Println(file.Name(), color.Reset)
-    }
+  table := tview.NewTable()
+  table.SetSelectable(true, false)
+
+
+  for i, file := range files {
+    table.SetCell(i, 0,
+    tview.NewTableCell(file.Name()).
+    SetTextColor(getColor(file)).
+    SetAlign(tview.AlignLeft).
+    SetSelectable(true))
   }
+
+  if err := app.SetRoot(table, true).SetFocus(table).Run(); err != nil {
+		panic(err)
+	}
+
+
+}
+func getColor(file os.FileInfo) tcell.Color {
+  if file.IsDir() {
+    return tcell.ColorBlue
+  }
+  return tcell.ColorGreen
 }
