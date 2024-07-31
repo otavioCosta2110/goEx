@@ -1,51 +1,36 @@
 package main
 
 import (
-	"fmt"
-	"os"
+	table "otaviocosta2110/goEx/src/middleware"
 
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
+var app *tview.Application
+var dir string
 
 func main() {
-  app := tview.NewApplication()
+	app = tview.NewApplication()
+	dir = "."
 
-  dir := "."
+  table.UpdateAndDisplayTable(dir, app)
 
-  d, err := os.Open(dir)
+	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		switch event.Key() {
+		case tcell.KeyRune:
+			if event.Rune() == 'q' {
+				Stop()
+			}
+		}
+		return event
+	})
 
-  if err != nil{
-    fmt.Println("Error: ", err)
-    return
-  }
-
-  defer d.Close()
-
-  files, err := d.Readdir(-1)
-
-  table := tview.NewTable()
-  table.SetSelectable(true, false)
-
-
-  for i, file := range files {
-    table.SetCell(i, 0,
-    tview.NewTableCell(file.Name()).
-    SetTextColor(getColor(file)).
-    SetAlign(tview.AlignLeft).
-    SetSelectable(true))
-  }
-
-  if err := app.SetRoot(table, true).SetFocus(table).Run(); err != nil {
+	if err := app.Run(); err != nil {
 		panic(err)
 	}
-
-
 }
-func getColor(file os.FileInfo) tcell.Color {
-  if file.IsDir() {
-    return tcell.ColorBlue
-  }
-  return tcell.ColorGreen
+
+func Stop() {
+	app.Stop()
 }
