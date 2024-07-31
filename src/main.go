@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"os"
+	color "otaviocosta2110/goEx/src/middleware"
 )
+
 
 func main() {
   dir := "."
@@ -19,8 +21,11 @@ func main() {
 
   files, err := d.Readdir(-1)
 
-  for _, files := range files {
-    fmt.Println(files.Name())
+  for _, file := range files {
+    if file.IsDir() {
+      fmt.Println(color.Blue, file.Name(), color.Reset)
+    } else {
+      fmt.Println(file.Name(), color.Reset)
+    }
   }
-  // println(files)
 }
