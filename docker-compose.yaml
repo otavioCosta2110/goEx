@@ -1,0 +1,7 @@
+services:
+  app:
+    image: cosmtrek/air
+    working_dir: /goEx
+    volumes:
+      - ./:/goEx
+    command: air src/main.go 

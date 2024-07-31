@@ -23,7 +23,7 @@ func main() {
 
   for _, file := range files {
     if file.IsDir() {
-      fmt.Println(color.Blue, file.Name(), color.Reset)
+      fmt.Printf("%s%s/%s\n",color.Blue, file.Name(), color.Reset)
     } else {
       fmt.Println(file.Name(), color.Reset)
     }
