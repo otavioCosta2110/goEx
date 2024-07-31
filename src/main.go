@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	table "otaviocosta2110/goEx/src/middleware"
 
 	"github.com/gdamore/tcell/v2"
@@ -11,8 +12,13 @@ var app *tview.Application
 var dir string
 
 func main() {
+  dir = "."
+
+  if len(os.Args) > 1 {
+    dir = os.Args[1]
+  }
+
 	app = tview.NewApplication()
-	dir = "."
 
   table.UpdateAndDisplayTable(dir, app)
 
