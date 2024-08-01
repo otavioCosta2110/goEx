@@ -38,11 +38,10 @@ func CreateFile(dir string, file string) {
     if err != nil {
       panic(err)
     }
-  }else{
+  } else {
     _, err := os.Create(dir + "/" + file)
     if err != nil {
       panic(err)
     }
-
   }
 }
