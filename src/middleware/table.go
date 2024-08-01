@@ -45,11 +45,11 @@ func UpdateTable(dirPtr *string) *tview.Table {
 	return GetFilesTable(files)
 }
 
-func UpdateAndDisplayTable(dirPtr *string, app *tview.Application) string {
+func UpdateAndDisplayTable(dirPtr *string, app *tview.Application) {
   dir := *dirPtr
 	table = UpdateTable(dirPtr)
 	if table == nil {
-		return ""
+		return 
 	}
 
 	table.SetSelectedFunc(func(row, column int) {
@@ -85,7 +85,6 @@ func UpdateAndDisplayTable(dirPtr *string, app *tview.Application) string {
 	})
 
 	app.SetRoot(table, true).SetFocus(table)
-  return dir
 }
 
 func GetSelectedFile() string {

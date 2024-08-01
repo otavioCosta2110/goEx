@@ -31,3 +31,18 @@ func DeleteFile(dir string, file string) {
     panic(err)
   }
 }
+
+func CreateFile(dir string, file string) {
+  if file[len(file)-1] == '/' {
+    err := os.Mkdir(dir + "/" + file, 0755)
+    if err != nil {
+      panic(err)
+    }
+  }else{
+    _, err := os.Create(dir + "/" + file)
+    if err != nil {
+      panic(err)
+    }
+
+  }
+}

@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 
 	"otaviocosta2110/goEx/src/actions"
-	table "otaviocosta2110/goEx/src/middleware"
+	"otaviocosta2110/goEx/src/middleware"
 
 	"github.com/rivo/tview"
 )
@@ -30,7 +30,7 @@ func main() {
 
   actions.CaptureKeys(app, dirPtr)
 
-	table.UpdateAndDisplayTable(dirPtr, app)
+	middleware.UpdateAndDisplayTable(dirPtr, app)
 
 
 	if err := app.Run(); err != nil {
