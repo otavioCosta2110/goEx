@@ -25,3 +25,9 @@ func GetFilesStruct(files []os.FileInfo) []FileInfo {
 	return fileInfos
 }
 
+func DeleteFile(dir string, file string) {
+  err := os.Remove(dir + "/" + file)
+  if err != nil {
+    panic(err)
+  }
+}

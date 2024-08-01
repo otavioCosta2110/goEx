@@ -1,18 +1,17 @@
 package main
 
 import (
-	"fmt"
 	"os"
+	"path/filepath"
 
+	"otaviocosta2110/goEx/src/actions"
 	table "otaviocosta2110/goEx/src/middleware"
 
-	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
 )
 
 var app *tview.Application
 var dir string
-var lastKey rune
 
 func main() {
 	dir = "."
@@ -20,37 +19,22 @@ func main() {
 	if len(os.Args) > 1 {
 		dir = os.Args[1]
 	}
+  dir, err := filepath.Abs(dir)
+  if err != nil {
+    panic(err)
+  }
 
 	app = tview.NewApplication()
 
-	table.UpdateAndDisplayTable(dir, app)
+  dirPtr := &dir
 
-	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
-		switch event.Key() {
-		case tcell.KeyRune:
-			if event.Rune() == 'q' {
-				Stop()
-			}
-			if event.Rune() == 'd' {
-				if lastKey == 'd' {
-					fmt.Println("Delete")
-					lastKey = 0
-				} else {
-					lastKey = 'd'
-				}
-			} else {
-				lastKey = 0
-			}
-		}
-		return event
-	})
+  actions.CaptureKeys(app, dirPtr)
+
+	table.UpdateAndDisplayTable(dirPtr, app)
+
 
 	if err := app.Run(); err != nil {
 		panic(err)
 	}
-}
-
-func Stop() {
-	app.Stop()
 }
 
