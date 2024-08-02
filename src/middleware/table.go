@@ -27,9 +27,8 @@ func GetFilesTable(files []os.FileInfo) *tview.Table {
 	return table
 }
 
-func UpdateTable(dirPtr *string) *tview.Table {
-  dir := *dirPtr
-	d, err := os.Open(dir)
+func UpdateTable() *tview.Table {
+	d, err := os.Open(Dir)
 	if err != nil {
 		fmt.Println("Error opening directory:", err)
 		return nil
@@ -45,21 +44,18 @@ func UpdateTable(dirPtr *string) *tview.Table {
 	return GetFilesTable(files)
 }
 
-func UpdateAndDisplayTable(dirPtr *string, app *tview.Application) {
-  dir := *dirPtr
-	table = UpdateTable(dirPtr)
+func UpdateAndDisplayTable() {
+	table = UpdateTable()
 	if table == nil {
-		return 
+		return
 	}
 
 	table.SetSelectedFunc(func(row, column int) {
-		d, err := os.Open(dir)
-
+		d, err := os.Open(Dir)
 		if err != nil {
 			fmt.Println("Error opening directory:", err)
 			return
 		}
-
 		defer d.Close()
 
 		files, err := d.Readdir(-1)
@@ -73,18 +69,32 @@ func UpdateAndDisplayTable(dirPtr *string, app *tview.Application) {
 		if row >= 0 && row < len(fileInfos) {
 			selectedFile := fileInfos[row]
 			if selectedFile.IsDir {
-				dir = filepath.Join(dir, selectedFile.Name)
-        dir, err := filepath.Abs(dir)
-        if err != nil {
-          panic(err)
-        }
-        *dirPtr = dir
-				UpdateAndDisplayTable(dirPtr, app)
+				newDir := filepath.Join(Dir, selectedFile.Name)
+				newDir, err := filepath.Abs(newDir)
+				if err != nil {
+					fmt.Println("Error getting absolute path:", err)
+					return
+				}
+				Dir = newDir
+
+				Flex.Clear()
+				UpdateAndDisplayTable()
 			}
 		}
 	})
 
-	app.SetRoot(table, true).SetFocus(table)
+  Dir, err := filepath.Abs(Dir)
+  if err != nil {
+    panic(err)
+  }
+
+  Flex.Clear()
+  TextV.SetTitle(Dir)
+
+  Flex.AddItem(table, 0, 20, true)
+  Flex.AddItem(TextV, 0, 1, true)
+
+	App.SetRoot(Flex, true).SetFocus(table)
 }
 
 func GetSelectedFile() string {

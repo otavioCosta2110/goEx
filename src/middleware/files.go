@@ -10,6 +10,11 @@ type FileInfo struct {
 func GetFilesStruct(files []os.FileInfo) []FileInfo {
 	var fileInfos []FileInfo
 
+  fileInfos = append(fileInfos, FileInfo{
+    Name:  "..",
+    IsDir: true,
+  })
+
 	for _, entry := range files {
 		fileInfos = append(fileInfos, FileInfo{
 			Name:  entry.Name(),
@@ -17,10 +22,6 @@ func GetFilesStruct(files []os.FileInfo) []FileInfo {
 		})
 	}
 
-	fileInfos = append(fileInfos, FileInfo{
-		Name:  "..",
-		IsDir: true,
-	})
 
 	return fileInfos
 }

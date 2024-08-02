@@ -1,4 +1,4 @@
-package actions
+package middleware
 
 import (
 	"github.com/gdamore/tcell/v2"
@@ -7,9 +7,9 @@ import (
 
 var lastKey rune
 
-func CaptureKeys(app *tview.Application, dirPtr *string) {
-	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
-		focused := app.GetFocus()
+func CaptureKeys() {
+	App.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		focused := App.GetFocus()
 
 		if _, ok := focused.(*tview.InputField); ok {
 			return event
@@ -19,11 +19,11 @@ func CaptureKeys(app *tview.Application, dirPtr *string) {
 		case tcell.KeyRune:
 			switch event.Rune() {
 			case 'q':
-				Stop(app)
+				Stop(App)
 			case 'd':
-				Delete(app, dirPtr, &lastKey)
+				Delete(App, &lastKey)
 			case 'a':
-				Create(app, dirPtr)
+				Create(App)
 			default:
 				lastKey = 0
 			}
@@ -32,6 +32,6 @@ func CaptureKeys(app *tview.Application, dirPtr *string) {
 	})
 }
 
-func Stop(app *tview.Application) {
-	app.Stop()
+func Stop(App *tview.Application) {
+	App.Stop()
 }
