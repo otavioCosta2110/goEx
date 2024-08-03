@@ -2,31 +2,34 @@ package action
 
 import (
 	"github.com/gdamore/tcell/v2"
+	"github.com/otavioCosta2110/goex/pkg/files"
+	"github.com/otavioCosta2110/goex/pkg/global"
+	"github.com/otavioCosta2110/goex/pkg/table"
 	"github.com/rivo/tview"
 )
 
-func Delete(app *tview.Application, lastKeyPtr *rune){
+func Delete(lastKeyPtr *rune){
   lastKey := *lastKeyPtr
   if lastKey == 'd' {
-    DeleteFile(Dir, GetSelectedFile())
-    UpdateAndDisplayTable()
+    files.DeleteFile(global.Dir, table.GetSelectedFile())
+    table.UpdateAndDisplayTable()
     *lastKeyPtr = 0
   } else {
     *lastKeyPtr = 'd'
   }
 }
 
-func Create(app *tview.Application){
+func Create(){
   input := tview.NewInputField().
     SetLabel("File Name: ").
     SetFieldWidth(30)
 
   input.SetDoneFunc(func(key tcell.Key){
     if key == tcell.KeyEnter {
-      CreateFile(Dir, input.GetText())
-      UpdateAndDisplayTable()
+      files.CreateFile(global.Dir, input.GetText())
+      table.UpdateAndDisplayTable()
     }
   })
 
-  app.SetRoot(input, false)
+  global.App.SetRoot(input, false)
 }

@@ -2,15 +2,16 @@ package capturekeys
 
 import (
 	"github.com/gdamore/tcell/v2"
+	"github.com/otavioCosta2110/goex/pkg/action"
+	"github.com/otavioCosta2110/goex/pkg/global"
 	"github.com/rivo/tview"
-
 )
 
 var lastKey rune
 
 func CaptureKeys() {
-	App.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
-		focused := App.GetFocus()
+	global.App.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
+		focused := global.App.GetFocus()
 
 		if _, ok := focused.(*tview.InputField); ok {
 			return event
@@ -20,11 +21,11 @@ func CaptureKeys() {
 		case tcell.KeyRune:
 			switch event.Rune() {
 			case 'q':
-				Stop(App)
+				Stop()
 			case 'd':
-				Delete(App, &lastKey)
+				action.Delete(&lastKey)
 			case 'a':
-				Create(App)
+				action.Create()
 			default:
 				lastKey = 0
 			}
@@ -33,6 +34,6 @@ func CaptureKeys() {
 	})
 }
 
-func Stop(App *tview.Application) {
-	App.Stop()
+func Stop() {
+	global.App.Stop()
 }

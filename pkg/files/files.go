@@ -11,13 +11,19 @@ func GetFilesStruct(files []os.FileInfo) []FileInfo {
 	var fileInfos []FileInfo
 
   fileInfos = append(fileInfos, FileInfo{
-    Name:  "..",
+    Name:  "../",
     IsDir: true,
   })
 
 	for _, entry := range files {
+    var name string
+    if entry.IsDir() {
+      name = entry.Name() + "/"
+    } else {
+      name = entry.Name()
+    }
 		fileInfos = append(fileInfos, FileInfo{
-			Name:  entry.Name(),
+      Name:  name,
 			IsDir: entry.IsDir(),
 		})
 	}

@@ -1,4 +1,4 @@
-module github.com/otaviocosta2110/goex
+module github.com/otavioCosta2110/goex
 
 go 1.22.5
 
