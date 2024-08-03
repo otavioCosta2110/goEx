@@ -1,4 +1,4 @@
-package middleware
+package files
 
 import "os"
 

@@ -1,4 +1,4 @@
-package middleware
+package color
 
 import "github.com/gdamore/tcell/v2"
 

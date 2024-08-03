@@ -1,4 +1,4 @@
-package middleware
+package capturekeys
 
 import (
 	"github.com/gdamore/tcell/v2"

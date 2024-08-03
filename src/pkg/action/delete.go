@@ -1,4 +1,4 @@
-package middleware
+package action
 
 import (
 	"github.com/gdamore/tcell/v2"
@@ -6,6 +6,7 @@ import (
 )
 
 func Delete(app *tview.Application, lastKeyPtr *rune){
+  lastKey := *lastKeyPtr
   if lastKey == 'd' {
     DeleteFile(Dir, GetSelectedFile())
     UpdateAndDisplayTable()

@@ -1,9 +1,10 @@
-package middleware
+package global
 
 import (
 	"os"
 
 	"github.com/rivo/tview"
+  "otaviocosta2110/goEx/src/capturekeys"
 )
 
 var App *tview.Application
