@@ -1,9 +1,8 @@
 package main
 
-import "otaviocosta2110/goEx/src/middleware"
-
+import "github.com/otaviocosta2110/goEx/pkg/global"
 
 func main() {
-  middleware.Init()
+  Init()
 }
 

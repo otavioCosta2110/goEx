@@ -3,6 +3,7 @@ package capturekeys
 import (
 	"github.com/gdamore/tcell/v2"
 	"github.com/rivo/tview"
+
 )
 
 var lastKey rune
