@@ -5,7 +5,7 @@ import (
 
 	"github.com/rivo/tview"
 
-  "github.com/otaviocosta2110/goEx/pkg/capturekeys"
+  "github.com/otavioCosta2110/goEx/pkg/capturekeys"
 )
 
 var App *tview.Application
